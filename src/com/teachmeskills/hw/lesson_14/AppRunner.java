@@ -21,8 +21,9 @@ public class AppRunner {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Please specify the file path: ");
-        String filePath = scanner.nextLine();
+
         try {
+            String filePath = scanner.nextLine();
             FileOperation.readTextFromFile(filePath);
 
         } catch (InvalidDocumentException e) {

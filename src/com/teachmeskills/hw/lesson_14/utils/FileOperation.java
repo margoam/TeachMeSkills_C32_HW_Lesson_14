@@ -8,29 +8,34 @@ import java.io.*;
 public class FileOperation {
 
     public static void readTextFromFile(String path) throws InvalidDocumentException {
-        int lineCount = 0;
+        String[] lines = null;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            int lineCount = 0;
             while (reader.readLine() != null) {
                 lineCount++;
             }
-        } catch (IOException e) {
-            System.err.println("Error during counting: " + e.getMessage());
-        }
 
-        String[] lines = new String[lineCount];
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-            String line;
-            int index = 0;
-            while ((line = reader.readLine()) != null) {
-                lines[index++] = line.trim();
+            lines = new String[lineCount];
+
+            try (BufferedReader newReader = new BufferedReader(new FileReader(path))) {
+                String line;
+                int index = 0;
+                while ((line = newReader.readLine()) != null) {
+                    lines[index++] = line.trim();
+                }
             }
         } catch (IOException e) {
-            System.err.println("Read error: " + e.getMessage());
+            System.err.println("Error during file reading: " + e.getMessage());
         }
 
-        analyzeTextFromFile(lines);
+        if (lines != null) {
+            analyzeTextFromFile(lines);
+        } else {
+            System.err.println("File not found.");
+        }
     }
+
 
     public static void analyzeTextFromFile(String[] parsedText) throws InvalidDocumentException {
         int validDocnumCount = 0;
