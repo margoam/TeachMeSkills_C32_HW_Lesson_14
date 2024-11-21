@@ -3,6 +3,8 @@ package com.teachmeskills.hw.lesson_14;
 import com.teachmeskills.hw.lesson_14.exception.InvalidDocumentException;
 import com.teachmeskills.hw.lesson_14.utils.*;
 
+import java.util.Scanner;
+
 /**
  * Допустим есть файл с номерами документов.
  * Номером документа является строка, состоящая из букв и цифр(без служебных символов).
@@ -17,8 +19,11 @@ import com.teachmeskills.hw.lesson_14.utils.*;
 public class AppRunner {
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Please specify the file path: ");
+        String filePath = scanner.nextLine();
         try {
-            FileOperation.readTextFromFile();
+            FileOperation.readTextFromFile(filePath);
 
         } catch (InvalidDocumentException e) {
             System.err.println("Error during document analysis: " + e.getMessage());

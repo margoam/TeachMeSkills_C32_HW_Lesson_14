@@ -7,10 +7,10 @@ import java.io.*;
 
 public class FileOperation {
 
-    public static void readTextFromFile() throws InvalidDocumentException {
+    public static void readTextFromFile(String path) throws InvalidDocumentException {
         int lineCount = 0;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(Constants.PATH_TO_FILE))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             while (reader.readLine() != null) {
                 lineCount++;
             }
@@ -19,7 +19,7 @@ public class FileOperation {
         }
 
         String[] lines = new String[lineCount];
-        try (BufferedReader reader = new BufferedReader(new FileReader(Constants.PATH_TO_FILE))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             String line;
             int index = 0;
             while ((line = reader.readLine()) != null) {
@@ -83,6 +83,11 @@ public class FileOperation {
 
 
     public static void createReport(String[] data, String fileName, int count) {
+        File reportDir = new File(Constants.PATH_TO_REPORTS);
+        if (!reportDir.exists()) {
+            reportDir.mkdir();
+        }
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constants.PATH_TO_REPORTS + fileName))) {
             for (int i = 0; i < count; i++) {
                 writer.write(data[i]);
