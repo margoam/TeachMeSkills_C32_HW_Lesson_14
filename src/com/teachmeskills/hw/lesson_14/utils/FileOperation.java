@@ -37,9 +37,6 @@ public class FileOperation {
     }
 
     public static void analyzeTextFromFile(String[] parsedText) throws InvalidDocumentException {
-        int validDocnumCount = 0;
-        int validContractCount = 0;
-        int invalidCount = 0;
 
         String[] validDocnums = new String[parsedText.length];
         String[] validContracts = new String[parsedText.length];
@@ -65,17 +62,14 @@ public class FileOperation {
 
                 if (line.startsWith("docnum")) {
                     validDocnums[docnumIndex++] = line;
-                    validDocnumCount++;
                 } else if (line.startsWith("contract")) {
                     validContracts[contractIndex++] = line;
-                    validContractCount++;
                 } else {
                     throw new InvalidDocumentException("Invalid prefix: " + line + " (Should start with 'docnum' or 'contract')");
                 }
 
             } catch (InvalidDocumentException e) {
                 invalidNumbers[invalidIndex++] = line + " - Reason: " + e.getMessage();
-                invalidCount++;
             }
         }
 
