@@ -36,7 +36,6 @@ public class FileOperation {
         }
     }
 
-
     public static void analyzeTextFromFile(String[] parsedText) throws InvalidDocumentException {
         int validDocnumCount = 0;
         int validContractCount = 0;
@@ -84,8 +83,6 @@ public class FileOperation {
         createReport(validContracts, "contracts_report.txt", contractIndex);
         createReport(invalidNumbers, "invalid_numbers_report.txt", invalidIndex);
     }
-
-
 
     public static void createReport(String[] data, String fileName, int count) {
         File reportDir = new File(Constants.PATH_TO_REPORTS);
