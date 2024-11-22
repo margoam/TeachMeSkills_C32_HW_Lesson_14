@@ -53,11 +53,11 @@ public class FileOperation {
 
             try {
                 if (line.length() != 15) {
-                    throw new InvalidDocumentException("Invalid length: " + line + " (Expected 15 characters)");
+                    throw new InvalidDocumentException("Invalid length: Expected 15 characters)");
                 }
 
                 if (!line.matches(Constants.REGEX_EXP)) {
-                    throw new InvalidDocumentException("Contains invalid characters: " + line);
+                    throw new InvalidDocumentException("Contains invalid characters");
                 }
 
                 if (line.startsWith("docnum")) {
@@ -65,7 +65,7 @@ public class FileOperation {
                 } else if (line.startsWith("contract")) {
                     validContracts[contractIndex++] = line;
                 } else {
-                    throw new InvalidDocumentException("Invalid prefix: " + line + " (Should start with 'docnum' or 'contract')");
+                    throw new InvalidDocumentException("Invalid prefix: Should start with 'docnum' or 'contract'");
                 }
 
             } catch (InvalidDocumentException e) {
