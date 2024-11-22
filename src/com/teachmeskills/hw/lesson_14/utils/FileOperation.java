@@ -36,7 +36,7 @@ public class FileOperation {
         }
     }
 
-    public static void analyzeTextFromFile(String[] parsedText) throws InvalidDocumentException {
+    public static void analyzeTextFromFile(String[] parsedText) {
 
         String[] validDocnums = new String[parsedText.length];
         String[] validContracts = new String[parsedText.length];
