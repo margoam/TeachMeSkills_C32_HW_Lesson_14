@@ -1,0 +1,7 @@
+docnum12345678901 - Reason: Invalid length: Expected 15 characters)
+docnum12!456789 - Reason: Contains invalid characters
+contracta@c1234 - Reason: Contains invalid characters
+docnum123 - Reason: Invalid length: Expected 15 characters)
+contractabc123 - Reason: Invalid length: Expected 15 characters)
+contruct12345 - Reason: Invalid length: Expected 15 characters)
+docnem2345678 - Reason: Invalid length: Expected 15 characters)
