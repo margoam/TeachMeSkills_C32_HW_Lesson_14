@@ -53,7 +53,7 @@ public class FileOperation {
 
             try {
                 if (line.length() != 15) {
-                    throw new InvalidDocumentException("Invalid length: Expected 15 characters)");
+                    throw new InvalidDocumentException("Invalid length: Expected 15 characters");
                 }
 
                 if (!line.matches(Constants.REGEX_EXP)) {
