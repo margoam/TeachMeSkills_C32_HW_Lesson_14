@@ -12,7 +12,7 @@ import java.util.List;
 
 public class FileOperation {
 
-    public static void readTextFromFile(String path) throws InvalidDocumentException {
+    public static void readTextFromFile(String path) {
         List<String> lines;
 
         try {

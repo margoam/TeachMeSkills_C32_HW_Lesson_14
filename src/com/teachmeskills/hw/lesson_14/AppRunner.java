@@ -26,8 +26,6 @@ public class AppRunner {
             String filePath = scanner.nextLine();
             FileOperation.readTextFromFile(filePath);
 
-        } catch (InvalidDocumentException e) {
-            System.err.println("Error during document analysis: " + e.getMessage());
         } catch (Exception e) {
             System.err.println("General error: " + e.getMessage());
         }
