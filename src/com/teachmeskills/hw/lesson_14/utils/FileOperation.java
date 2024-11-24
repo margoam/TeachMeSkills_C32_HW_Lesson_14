@@ -4,53 +4,36 @@ import com.teachmeskills.hw.lesson_14.constant.Constants;
 import com.teachmeskills.hw.lesson_14.exception.InvalidDocumentException;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileOperation {
 
     public static void readTextFromFile(String path) throws InvalidDocumentException {
-        String[] lines = null;
+        List<String> lines;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-            int lineCount = 0;
-            while (reader.readLine() != null) {
-                lineCount++;
-            }
-
-            lines = new String[lineCount];
-
-            try (BufferedReader newReader = new BufferedReader(new FileReader(path))) {
-                String line;
-                int index = 0;
-                while ((line = newReader.readLine()) != null) {
-                    lines[index++] = line.trim();
-                }
-            }
+        try {
+            lines = Files.readAllLines(Paths.get(path));
+            lines.removeIf(String::isBlank);
+            lines.replaceAll(String::trim);
         } catch (IOException e) {
             System.err.println("Error during file reading: " + e.getMessage());
+            return;
         }
 
-        if (lines != null) {
-            analyzeTextFromFile(lines);
-        } else {
-            System.err.println("File not found.");
-        }
+        analyzeTextFromFile(lines);
     }
 
-    public static void analyzeTextFromFile(String[] parsedText) {
+    public static void analyzeTextFromFile(List<String> parsedText) {
 
-        String[] validDocnums = new String[parsedText.length];
-        String[] validContracts = new String[parsedText.length];
-        String[] invalidNumbers = new String[parsedText.length];
-
-        int invalidIndex = 0;
-        int docnumIndex = 0;
-        int contractIndex = 0;
+        List<String> validDocnums = new ArrayList<>();
+        List<String> validContracts = new ArrayList<>();
+        List<String> invalidNumbers = new ArrayList<>();
 
         for (String line : parsedText) {
-            if (line.trim().isEmpty()) {
-                continue;
-            }
-
             try {
                 if (line.length() != 15) {
                     throw new InvalidDocumentException("Invalid length: Expected 15 characters");
@@ -61,37 +44,29 @@ public class FileOperation {
                 }
 
                 if (line.startsWith("docnum")) {
-                    validDocnums[docnumIndex++] = line;
+                    validDocnums.add(line);
                 } else if (line.startsWith("contract")) {
-                    validContracts[contractIndex++] = line;
+                    validContracts.add(line);
                 } else {
                     throw new InvalidDocumentException("Invalid prefix: Should start with 'docnum' or 'contract'");
                 }
-
             } catch (InvalidDocumentException e) {
-                invalidNumbers[invalidIndex++] = line + " - Reason: " + e.getMessage();
+                invalidNumbers.add(line + " - Reason: " + e.getMessage());
             }
         }
 
-        createReport(validDocnums, "docnums_report.txt", docnumIndex);
-        createReport(validContracts, "contracts_report.txt", contractIndex);
-        createReport(invalidNumbers, "invalid_numbers_report.txt", invalidIndex);
+        createReport(validDocnums, "docnums_report.txt");
+        createReport(validContracts, "contracts_report.txt");
+        createReport(invalidNumbers, "invalid_numbers_report.txt");
     }
 
-    public static void createReport(String[] data, String fileName, int count) {
-        File reportDir = new File(Constants.PATH_TO_REPORTS);
-        if (!reportDir.exists()) {
-            reportDir.mkdir();
-        }
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constants.PATH_TO_REPORTS + fileName))) {
-            for (int i = 0; i < count; i++) {
-                writer.write(data[i]);
-                writer.newLine();
-            }
-            System.out.println("Report is created: " + fileName);
+    public static void createReport(List<String> data, String fileName) {
+        Path path = Paths.get(Constants.PATH_TO_REPORTS, fileName);
+        try {
+            Files.write(path, data);
+            System.out.println("Report is created: " + path);
         } catch (IOException e) {
-            System.err.println("Error writing to file " + fileName + ": " + e.getMessage());
+            System.err.println("Error writing report: " + e.getMessage());
         }
     }
 }
